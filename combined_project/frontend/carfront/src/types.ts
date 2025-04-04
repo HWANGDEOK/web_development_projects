@@ -8,12 +8,11 @@ export type CarResponse = {
   _links: {
     self: {
       href: string,
-    }, 
-    car: {
+    }, car: {
       href: string;
     },
     owner: {
       href: string;
     }
   };
-}
+} 
