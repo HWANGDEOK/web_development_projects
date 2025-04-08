@@ -1,17 +1,19 @@
-import { useState } from "react"
-import { Box, Container, Modal, Typography } from "@mui/material"
-import ResultBox from './components/ResultBox'
-import InputForm from './components/InputForm'
-import ClockImage from './assets/clock.png'
-import TitleImage from './assets/title.png'
-
+import { useState } from "react";
+import { Box, Container, Modal, Typography } from "@mui/material";
+import InputForm from './components/InputForm';
+import ResultBox from './components/ResultBox';
+import MotivationalModal from './components/MotivationalModal';
+import Footer from './components/Footer';
+import ClockImage from './assets/clock.png';
+import TitleImage from './assets/title.png';
+import './App.css';
 
 function App() {
   const [ field, setField ] = useState('');
   const [ time, setTime ] = useState('');
   const [ loading, setLoading ] = useState(false);
   const [ resultVisible, setResultVisible ] = useState(false);
-  const [ madalOpen, setModalOpen ] = useState(false);
+  const [ modalOpen, setModalOpen ] = useState(false); 
 
   const handleCalculate = () => {
     const timeValue = Number(time);
@@ -19,8 +21,8 @@ function App() {
       alert('입력되지 않았습니다.');
       return;
     }
-    if(!time || timeValue > 24){
-      alert('잘못된 값입니다. 24이하의 값을 입력해주세요.')
+    if(!time || timeValue > 24) {
+      alert('잘못된 값입니다. 24이하의 값을 입력해주세요.');
       return;
     }
     setLoading(true);
@@ -29,38 +31,56 @@ function App() {
     setTimeout(() => {
       setLoading(false);
       setResultVisible(true);
-    }, 1800);
+    }, 3000);
   };
 
-  const copyurl = () => {
+  const copyUrl = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       alert('URL이 복사되었습니다.');
     });
   };
-
+  
   return (
     <Box sx={{ 
       backgroundColor: '#5B2386', 
-      color:'#fff',
+      color: '#fff',
       minHeight: '100vh',
-      fontFamily: 'GmarketSansMedium'
+      fontFamily: 'GmarketSansMedium'  
     }}>
-      <Container maxWidth="md" sx={{ pt: 5}}>
-        <Box sx={{ 
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          mb: 5,
-        }}>
-          <img src={ClockImage} alt="Clock" width={265} height={265} style={{position:"relative"}}/>
-          <Box 
+      <Container maxWidth='md' sx={{ pt: 5}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb : 5 }}>
+          <Box
             sx={{
-              position: 'absolute',
-              width: 564,
-            }}>
-              <img src={TitleImage} alt="Title" style={{width: '100%'}}/>
+              position: 'relative',
+              width: 265,
+              height: 265,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <img 
+              src={ClockImage} 
+              alt="clock"
+              width={265}
+              height={265}
+              style={{position: 'absolute', top: 0, left: 0}}  
+            />
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 600,
+          }}>
+            <img 
+              src={TitleImage} 
+              alt="title" 
+              style={{ width: '100%'}}/>
+            </Box>
           </Box>
         </Box>
+
         <InputForm
           field={field}
           setField={setField}
@@ -68,14 +88,19 @@ function App() {
           setTime={setTime}
           handleCalculate={handleCalculate}/>
 
-        <ResultBox 
+        <ResultBox
           loading={loading}
           resultVisible={resultVisible}
           field={field}
           time={time}
           onModalOpen={() => setModalOpen(true)}
-          onShare={copyurl}
+          onShare={copyUrl}
         />
+
+        <MotivationalModal open={modalOpen} handleClose={() => setModalOpen(false)} />
+
+        <Footer />  
+
       </Container>
     </Box>
   )
