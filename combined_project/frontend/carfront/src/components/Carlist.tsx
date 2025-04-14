@@ -4,6 +4,7 @@ import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import { Snackbar } from "@mui/material";
 import { useState } from "react";
 import AddCar from "./AddCar";
+import EditCar from "./EditCar";
 
 function Carlist() {
   const [ open, setOpen ] = useState(false);
@@ -30,8 +31,19 @@ function Carlist() {
     {field: 'registrationNumber', headerName: 'Reg.nr', width: 200},
     {field: 'modelYear', headerName: 'ModelYear', width: 150},
     {field: 'price', headerName: 'Price', width: 150},
+    
     {
       field: 'edit',
+      headerName: '',
+      width: 90,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params: GridCellParams) =>
+        <EditCar cardata={params.row}/>
+    },
+
+    {
+      field: 'delete',
       headerName: '',
       width: 90,
       sortable: false,

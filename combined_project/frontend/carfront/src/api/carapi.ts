@@ -1,4 +1,4 @@
-import { CarResponse, Car } from "../types";
+import { CarResponse, Car, CarEntry } from "../types";
 import axios from "axios";
 
 export const getCars = async (): Promise<CarResponse[]> => {
@@ -19,5 +19,14 @@ export const addCar = async (car: Car): Promise<CarResponse> => {
     },
   });
 
+  return response.data;
+}
+
+export const updateCar = async (carEntry: CarEntry): Promise<CarResponse> => {
+  const response = await axios.put(carEntry.url, carEntry.car,
+    {headers: {
+      'Content-Type': 'application/json'
+    },
+  });
   return response.data;
 }
